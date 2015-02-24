@@ -1,0 +1,18 @@
+
+<div class="mapContainer" ng-controller="MapCtrl">
+
+	<ui-gmap-google-map center='map.center' zoom='map.zoom'>
+
+	  <ui-gmap-markers models="map.markers" coords="'self'" icon="'icon'" click="'onClicked'" options="options" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+	  </ui-gmap-markers>
+
+	  <ui-gmap-markers models="map.busInnerStops" coords="'self'" icon="'icon'" click="'onClicked'" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+      </ui-gmap-markers>
+      <ui-gmap-markers models="map.busOuterStops" coords="'self'" icon="'icon'" click="'onClicked'" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+      </ui-gmap-markers>
+      <ui-gmap-markers models="map.busStops" coords="'self'" icon="'icon'" click="'onClicked'" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+      </ui-gmap-markers>
+
+	</ui-gmap-google-map>
+
+</div>
