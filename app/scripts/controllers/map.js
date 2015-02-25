@@ -1,4 +1,3 @@
-'use strict';
 
 /**
  * @ngdoc function
@@ -150,7 +149,6 @@ angular.module('maptestAppApp')
 	    
 	    $http({method: 'GET', url: 'http://skynet.soe.ucsc.edu/bts/coord2.json'}).
 	    	success(function(data, status, headers, config) {
-	     	 	// this callback will be called asynchronously
 	      		if($scope.busData){
 	      			$scope.oldBusData = $scope.busData;
 	      		}else{
@@ -180,8 +178,18 @@ angular.module('maptestAppApp')
 
 	    	}).
 	    	error(function(data, status, headers, config) {
-	      		// called asynchronously if an error occurs
-	      		// or server returns response with an error status.
+	      		
+	      		if ((status >= 400) && (status < 500)) {
+                	$scope.busData = 0;
+                	$scope.map.markers = 0;
+                	return;
+	            }
+	            if ( (status >= 500) && (status < 600) ) {
+	                $scope.busData = 0;
+                	$scope.map.markers = 0;
+	                return;
+	            }
+
 	    	});
 
 	}; 
