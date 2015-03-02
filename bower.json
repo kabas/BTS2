@@ -13,7 +13,10 @@
     "angular-sanitize": "^1.3.0",
     "angular-touch": "^1.3.0",
     "angular-google-maps": "~2.0.12",
-    "angular-material": "~0.8.0"
+    "angular-material": "~0.8.0",
+    "svg-morpheus": "~0.1.8",
+    "angular-material-icons": "~0.4.0",
+    "html5-desktop-notifications": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.0",

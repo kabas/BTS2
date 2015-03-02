@@ -14,7 +14,7 @@ module.exports = function(config) {
     basePath: '../',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'chai'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -26,10 +26,20 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
+      'bower_components/angular-google-maps/dist/angular-google-maps.js',
+      'bower_components/angular-material/angular-material.js',
+      'bower_components/lodash/dist/lodash.js',
+      'bower_components/json3/lib/json3.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'
     ],
-
+    
+    client: {
+      mocha: {
+        reporter: 'html', // change Karma's debug.html to the mocha web reporter
+        ui: 'tdd'
+      }
+    },
     // list of files / patterns to exclude
     exclude: [],
 
@@ -47,7 +57,6 @@ module.exports = function(config) {
     browsers: [
       'PhantomJS',
       'Chrome',
-      'Opera',
       'Safari'
     ],
 
@@ -58,7 +67,8 @@ module.exports = function(config) {
       'karma-opera-launcher',
       'karma-safari-launcher',
       'karma-jasmine',
-      'karma-mocha'
+      'karma-mocha',
+      'karma-chai'
     ],
 
     // Continuous Integration mode
