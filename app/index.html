@@ -15,18 +15,44 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
   </head>
   <body ng-app="maptestAppApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    
-    
 
-      <div ng-view="" style="height:100%" ng-controller="MainCtrl"></div>
-       
+      <div ng-view="" style="height:100%" ng-controller="MainCtrl">
+      </div>
+
+      <div id='footerContainer'>
+        <div id='footerGoldLine'>
+        </div>
+        <div id='footerBlueContainer'>
+          <div ng-animate='reveal-animation' ng-show='busCount > 0'>
+            <div id='busCountOnline' ng-cloak>
+              {{busCount}}
+            </div>
+          </div>
+          <div id='busCountMessage' style='color: #139901;'>
+               Shuttles In Service
+            </div> 
+           
+          <div id='copyrightMessage'>
+          <p style='line-height:100%;'>
+              <br>This Web App is maintained by 
+                <a href="http://taps.ucsc.edu/" style="color:white;">TAPS</a>.<br>
+              UC SANTA CRUZ, 1156 HIGH STREET, SANTA CRUZ, CA 95064 <br>
+              ©2014 REGENTS OF THE UNIVERSITY OF CALIFORNIA. ALL RIGHTS RESERVED</p>
+          </div>
+          
+        </div>
+      </div>
+      <a ng-href="http://inrg.cse.ucsc.edu/inrgwiki/Projects">
+      <div id='btsBannerFooter'>
+        </div>
+       </a>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

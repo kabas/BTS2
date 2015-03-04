@@ -5,24 +5,107 @@ body {
   margin: 0;
   height: 100%;
 }
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
-.marketing,
 .footer {
   padding:0;
 }
 
-/* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
 }
-/* Make the masthead heading the same height as the navigation */
+
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 40px;
 }
+
+/* Styles related to the footer elements*/
+#footerContainer{
+  padding: 0;
+  margin: 0;
+  height: 50px;
+  width: 100%;
+}
+#footerGoldLine{
+  width:100%;
+  height:5px;
+  position:absolute;
+  bottom:45px;
+  left:0;
+  background:#f1b521;
+}
+#footerBlueContainer{
+  width:100%;
+  height:45px;
+  position:absolute;
+  bottom:0;
+  left:0;
+  background:#00458c;
+  text-align: center;
+}
+#busCountOnline{
+  height:45px;
+  width: 60px;
+  position:absolute;
+  font-family:  Roboto300, verdana;
+  font-size: 35px;
+  font-weight: bold;
+  color: #139901;
+  bottom:0;
+  left: 15px;
+  vertical-align: middle;
+}
+#busCountOffline{
+  height:45px;
+  width: 60px;
+  position:absolute;
+  font-family:  Roboto300, verdana;
+  font-size: 25px;
+  font-weight: bold;
+  bottom:0;
+  left: 15px;
+  vertical-align: middle;
+}
+.reveal-animation.ng-enter {
+ -webkit-transition: 1s linear all; /* Safari/Chrome */
+ transition: 1s linear all; /* All other modern browsers and IE10+ */
+ opacity: 0;
+}
+.reveal-animation.ng-enter.ng-enter-active {
+ /* The animation code itself */
+ opacity: 1;
+}
+#busCountMessage{
+  height:15px;
+  width: 200px;
+  position:absolute;
+  font-family:  Roboto300, verdana;
+  font-size: 15px;
+  font-weight: bold;
+  bottom:15px;
+  left: 45px;
+  vertical-align: middle;
+}
+#copyrightMessage{
+  font-family:  Roboto300, verdana;
+  font-size: 10px;
+  vertical-align: middle;
+  line-height: 60%;
+  color: #f1b521;
+}
+#btsBannerFooter{
+  position: absolute;
+  height: 45px;
+  min-height: 50px;
+  width: 126px;
+  background: url(/images/BTSBanner2WithBorder_1080.png);
+  background-size: 126px 50px;
+  background-color: #bfdeff;
+  bottom: 0;
+  right:0;
+}
+
 
 /* Map Styles */
 .angular-google-map-container {
@@ -32,6 +115,7 @@ body {
     min-height: 450px !important;
     min-width: 300px !important;
     z-index: 0 !important;
+    padding-bottom:80px;   /* Height of the footer element */
 
 }
 .angular-google-map{
@@ -42,11 +126,11 @@ body {
     min-width: 300px !important;
     z-index: 0 !important;
 }
-
 .mapContainer{
   height: 100%;
   margin: 0;
   padding: 0;
+  padding-bottom:50px !important;   /* Height of the footer element */
 }
 
 
@@ -70,24 +154,6 @@ body {
 .container-narrow > hr {
   margin: 0;
   height: 100%
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 0;
-}
-.marketing p + h4 {
-  margin-top: 0;
 }
 
 /* Responsive: Portrait tablets and up */
