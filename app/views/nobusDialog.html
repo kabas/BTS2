@@ -1,0 +1,26 @@
+<md-dialog aria-label="NoBusesView">
+	<md-dialog-content style="z-index:100;">
+	<md-subheader class="md-sticky-no-effect">
+		<span style='font-size:20px;padding-left:5px;width:300px;'>No Buses Currently In Service!</span>
+		<span flex=""></span>
+		<md-button class="md-icon-button" ng-click='hide()' id="biggerClear" aria-label="CloseNav">
+		    <ng-md-icon icon="clear" style="fill: #F44336;" size="30">
+		    	 </ng-md-icon>	
+		</md-button>
+	</md-subheader>
+	<section layout="row" layout-sm="column" layout-align="center center">
+		<table>
+	   		<tr>
+	   			<td>
+		<p style='padding:0.5em;width:100%;'>For more information on bus scheduling please<br> visit the taps webpage by clicking on the following image:</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+		<a href='http://taps.ucsc.edu/buses-shuttles/campus-shuttles.html' ><div id='tapsLogo'></div></a>
+				</td>
+			</tr>
+		</table>
+	</section> 
+	</md-dialog-content>
+</md-dialog>

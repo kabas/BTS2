@@ -1,9 +1,14 @@
 /* Space out content a bit */
-html{ height: 100% }
+html{ height: 100%; }
 body {
   padding: 0;
+  min-width: 100%;
   margin: 0;
+  min-height: 100%;
   height: 100%;
+}
+#ng-scope{
+  min-height: 100%;
 }
 .header,
 .footer {
@@ -24,7 +29,6 @@ body {
 #footerContainer{
   padding: 0;
   margin: 0;
-  height: 50px;
   width: 100%;
 }
 #footerGoldLine{
@@ -37,9 +41,12 @@ body {
 }
 #footerBlueContainer{
   width:100%;
+  min-width: 450px !important;
   height:45px;
   position:absolute;
   bottom:0;
+  margin: 0;
+  padding: 0;
   left:0;
   background:#00458c;
   text-align: center;
@@ -47,6 +54,7 @@ body {
 #busCountOnline{
   height:45px;
   width: 60px;
+  min-width: 60px;
   position:absolute;
   font-family:  Roboto300, verdana;
   font-size: 35px;
@@ -79,6 +87,7 @@ body {
 #busCountMessage{
   height:15px;
   width: 200px;
+  min-width: 200px;
   position:absolute;
   font-family:  Roboto300, verdana;
   font-size: 15px;
@@ -87,53 +96,168 @@ body {
   left: 45px;
   vertical-align: middle;
 }
+
 #copyrightMessage{
   font-family:  Roboto300, verdana;
   font-size: 10px;
-  vertical-align: middle;
-  line-height: 60%;
+  min-width: 275px;
+  width: 275px;
+  text-align: center;
+  vertical-align: top;
+  margin: auto;
+  padding-top: 3px;
+  line-height: 100%;
   color: #f1b521;
 }
+
+.copyrightMobile{
+  display:none;
+}
+
 #btsBannerFooter{
   position: absolute;
   height: 45px;
-  min-height: 50px;
+  min-height: 45px;
+  min-width:  190px;
   width: 126px;
-  background: url(/images/BTSBanner2WithBorder_1080.png);
-  background-size: 126px 50px;
-  background-color: #bfdeff;
+  background: url(../images/slugrouteBanner.svg);
+  background-size: 190px 45px;
+  background-color: #00458c;
   bottom: 0;
-  right:0;
+  right: 5px;
 }
 
+.no-svg #btsBannerFooter {
+  background-image: url(image.png);
+}
 
 /* Map Styles */
 .angular-google-map-container {
     display:block !important;
     height: 100% !important;
     width: 100% !important;
-    min-height: 450px !important;
+    min-height: 100% !important;
     min-width: 300px !important;
     z-index: 0 !important;
-    padding-bottom:80px;   /* Height of the footer element */
-
 }
 .angular-google-map{
     display:block !important;
     height: 100% !important;
     width: 100% !important;
-    min-height: 450px !important;
+    min-height: 100% !important;
+    min-width: 300px !important;
+    z-index: 0 !important;
+}
+.angular-google-map-street-view-panorama{
+    display:block !important;
+    height: 100% !important;
+    width: 100% !important;
+    min-height: 100% !important;
     min-width: 300px !important;
     z-index: 0 !important;
 }
 .mapContainer{
+  display:block !important;
+  z-index: 0 !important;
+  width: 100% !important;
+  min-width: 100%;
   height: 100%;
   margin: 0;
+  text-align: center;
   padding: 0;
-  padding-bottom:50px !important;   /* Height of the footer element */
 }
 
+#busPanel{
+  width:24em;
+  overflow-x:hidden !important;
+  display: block;
+  position: absolute;
+  z-index: 99;
+  left: 0px;
+  top: 0px;
+  bottom: 50px;
+}
+#busPanelButton{
+  width: 5em;
+  height: 20em;
+  overflow-x:hidden !important;
+  display: block;
+  position: absolute;
+  z-index: 99;
+  left: 0px;
+  top: 0px;  
+}
+#busBar{
+  width: 24em;
+  text-align: left;
+}
 
+/*Dialog for stops*/
+.stopImage{
+  min-height: 45px;
+  min-width: 129px;
+  background-size: 129px 55px; 
+}
+#biggerClear{
+  padding: 0;
+  margin-bottom: 5px;
+  float: right;
+  bottom:7px;
+}
+.dialogButtons{
+  border-radius: 0 !important;
+  width: 50%;
+  height:50px;
+}
+
+/*Dialog for mobile apps*/
+#mobileDialog{
+  width:24em;
+  height: 24em;
+  overflow-x:hidden !important;
+  display: block;
+  position: absolute;
+  z-index: 99;
+  left: 50%;
+  top: 0px;
+  bottom: 50px;
+}
+#appleApp{
+  min-height: 45px;
+  min-width: 129px; 
+  background: url(../images/mobile/AppleApp.svg);
+  background-size: 129px 55px;
+}
+#amazonApp{
+  min-height: 45px;
+  min-width: 129px; 
+  background: url(../images/mobile/amazonApp.png);
+  background-size: 129px 45px;
+}
+#androidApp{
+  min-height: 45px;
+  min-width: 129px; 
+  width: 129px;
+  padding-bottom: 5px;
+  margin: auto;
+  background: url(../images/mobile/androidApp.png);
+  background-size: 129px 45px;
+}
+#tapsLogo{
+  min-height: 45px;
+  min-width: 129px; 
+  width: 129px;
+  padding-bottom: 10px;
+  margin: auto;
+  background: url(../images/taps-logo.jpg);
+  background-size: 129px 45px;
+}
+
+#listIcon{
+  width: 4em;
+  fill: white;
+  color: white;
+}
 
 /* Custom page footer */
 .footer {
@@ -142,18 +266,17 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
+
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    /*max-width: 730px;*/
-      height: 100%;
-      margin: 0;
-      padding: 0;
+    width: 100% !important;
+    height:100% !important;
+    min-height: 450px !important;
+    min-width: 300px !important;
+    padding: 0px !important;
+    margin: 0px !important;
   }
-}
-.container-narrow > hr {
-  margin: 0;
-  height: 100%
 }
 
 /* Responsive: Portrait tablets and up */
@@ -162,15 +285,25 @@ body {
   .header,
   .marketing,
   .footer {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
 }
+
+object {
+  width: 100%;
+  display: block;
+  height: auto;
+  position: relative;
+  padding-top: 100%;
+}
+
+

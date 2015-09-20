@@ -9,28 +9,28 @@
  * Main module of the application.
  */
 var btsModule = angular
-  .module('maptestAppApp', [
+  .module('BTS2App', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'uiGmapgoogle-maps'
+    'uiGmapgoogle-maps',
+    'ngMaterial',
+    'ngMdIcons'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider,$locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
       .otherwise({
         redirectTo: '/'
       });
+    
+    $locationProvider.html5Mode(true);
   });
 
   btsModule.config(function(uiGmapGoogleMapApiProvider) {

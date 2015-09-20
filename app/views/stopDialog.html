@@ -1,0 +1,17 @@
+<md-dialog aria-label="StopView">
+	<md-dialog-content style="z-index:100;">
+	<md-subheader class="md-sticky-no-effect">
+		<span style='font-size:20px;padding-left:5px;width:300px;' ng-bind="currentStopName"></span>
+		<span flex=""></span>
+		<md-button class="md-icon-button" ng-click='hide()' id="biggerClear" aria-label="CloseNav">
+		    <ng-md-icon icon="clear" style="fill: #F44336;" size="30">
+		    	 </ng-md-icon>	
+		</md-button>
+	</md-subheader>
+	<img style="height:250px;" ng-src='{{photo}}' />
+	<section layout="row" layout-sm="column" layout-align="center center">
+		<md-button class="dialogButtons md-raised md-primary" style='background-color:green;' ng-click="showStreetView(currentStopType+currentStopName)">Street View</md-button>
+		<md-button ng-disabled="true" class="dialogButtons md-raised md-primary">Set Alarm</md-button>
+	</section> 
+	</md-dialog-content>
+</md-dialog>

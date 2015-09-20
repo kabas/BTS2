@@ -1,18 +1,122 @@
+ 	
+
 
 <div class="mapContainer" ng-controller="MapCtrl">
-
-	<ui-gmap-google-map center='map.center' zoom='map.zoom'>
-
-	  <ui-gmap-markers models="map.markers" coords="'self'" icon="'icon'" click="'onClicked'" options="options" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+	<!--
+	<ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' control="map.control" options='map.options' ng-click="close()">-->
+	<ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' control="map.control" options='map.options' >
+	  <ui-gmap-markers models="map.markers" coords="'self'" icon="'icon'" click="onClicked" options="{zIndex:5}" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels" data-tap-disabled="true">
+	  		<!--<ui-gmap-windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
+                <div style="font-family:  Roboto300, verdana;">
+                    <p>Route:</p>
+                    <p ng-non-bindable>{{type}}</p>
+                </div>-->
+            </ui-gmap-windows>
 	  </ui-gmap-markers>
 
-	  <ui-gmap-markers models="map.busInnerStops" coords="'self'" icon="'icon'" click="'onClicked'" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+	  <ui-gmap-markers models="map.busInnerStops" coords="'self'" icon="'icon'" click="onClicked" labelContent="'title'" labelAnchor="22 0" options="{zIndex:3}" labelClass="marker-labels">
       </ui-gmap-markers>
-      <ui-gmap-markers models="map.busOuterStops" coords="'self'" icon="'icon'" click="'onClicked'" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+      <ui-gmap-markers models="map.busOuterStops" coords="'self'" icon="'icon'" click="onClicked" labelContent="'title'" labelAnchor="22 0" options="{zIndex:3}" labelClass="marker-labels">
       </ui-gmap-markers>
-      <ui-gmap-markers models="map.busStops" coords="'self'" icon="'icon'" click="'onClicked'" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels">
+      <ui-gmap-markers models="map.busStops" coords="'self'" icon="'icon'" click="onClicked" labelContent="'title'" labelAnchor="22 0" options="{zIndex:3}" labelClass="marker-labels">
       </ui-gmap-markers>
+
 
 	</ui-gmap-google-map>
+	<!--
+	<div id='busPanel' ng-controller="PanelCtrl" ng-show="showPanel" hide-md show-gt-md>
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" style="height:100%;">
+		  <md-toolbar class="md-theme-indigo" style='height:50px; min-height:50px;'>
+		    <h5 class="md-toolbar-tools" style="padding: 5px !important;">
+		    	<table>
+		    		<tr>
+		    	 		<td style='padding-right: 45px;'>Bus Tracking System 2</td>
+
+		    	 		<td><md-button class="md-icon-button" ng-click='close()' aria-label="CloseNav">
+		    	 				<ng-md-icon icon="remove_circle" style="fill: white; float: right;" size="50"></ng-md-icon><md-tooltip>
+        							Close
+      							</md-tooltip></td>
+		    	 				
+		    	 			</md-button>
+		    	 	</tr>
+		    	</table>
+		    </h5>
+		  </md-toolbar>
+		  <form>
+          <md-input-container>
+            <label for="testInput">Search By Stops (e.g. Science Hill)</label>
+            <input type="text" id="testInput"
+                   ng-model="data" md-sidenav-focus>
+          </md-input-container>
+          </form>
+	      <md-content class="md-padding">
+	      <md-select id placeholder="Pick" ng-model="someVal">
+		    <md-option ng-repeat='tab in tabs' ng-value='tab.title'> </md-option>
+		  </md-select>
+		  </md-content>
+
+		  <md-content>
+		  	<accordion close-others="oneAtATime" >
+		  		
+	          <accordion-group id="busListing" ng-repeat="bus in map.markers">
+	            <md-button  class="md-primary md-theme-indigo" >
+	            <accordion-heading >
+	            <div id='busBar' ng-click='animateMarker(bus.id)'>
+	            <img ng-src="../images/Panel_{{bus.route}}.png" style="height:40px;width:40px"/>
+	            {{bus.route}}
+	        	</div>
+	            </accordion-heading>
+	            
+	            </md-button>
+	          </accordion-group>
+	      
+	        </accordion>
+			</md-content>
+		</md-sidenav>
+	</div>
+	<div id='busPanelButton' ng-show="!showPanel" >
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="navButton" style="height:60px;" md-is-locked-open="!showPanel">
+			<md-toolbar class="md-theme-indigo" style='height:60px; min-height:50px;'>
+				<md-button class="md-icon-button" ng-click='openNav()' aria-label="OpenNav">
+		    	 				<ng-md-icon icon="list" style="fill: white; float: left;" size="50"></ng-md-icon>
+		    	 			</md-button>
+			</md-toolbar>
+		</md-sidenav>
+	</div>
+-->
+
 
 </div>
+
+<div id='footerContainer'>
+<div id='footerGoldLine'>
+</div>
+<div id='footerBlueContainer'>
+  
+  <div ng-animate='reveal-animation' ng-show='(busCount > 0) && notMobile'>
+    <div id='busCountOnline' ng-cloak>
+      {{busCount}}
+    </div>
+  
+    <div id='busCountMessage' style='color: #139901;' ng-cloak>
+       {{busCount>1 ? 'Shuttles In Service' :'Shuttle In Service'}}  
+    </div> 
+  </div>
+
+  <div id='copyrightMessage' ng-class="{ 'copyrightMobile' : !notMobile }">
+    <p style='line-height:100%;margin:0;'>
+      This Web App is maintained by 
+        <a href="http://taps.ucsc.edu/" style="color:white;">TAPS</a>.
+      UC SANTA CRUZ, 1156 HIGH STREET, SANTA CRUZ, CA 95064 
+      ©2015 REGENTS OF THE UNIVERSITY OF CALIFORNIA. ALL RIGHTS RESERVED
+    </p>
+  </div>
+  
+</div>
+</div>
+<a ng-href="http://inrg.cse.ucsc.edu/inrgwiki/Projects">
+<div >
+	<img id='btsBannerFooter' ng-src='../images/slugrouteBanner.svg' />
+	<img id='btsBannerFooter' ng-src='../images/slugrouteBanner.png'/>
+</div>
+</a>

@@ -1,0 +1,37 @@
+{
+  "count" : 3,
+  "markers" :
+  [
+    {
+      "latitude" : 36.99985833,
+      "longitude" : -122.05817,
+      "timestamp" : 1425959438,
+      "route" : "LOOP",
+      "id" : 7921,
+      "predictions" : ",14,16,,16,0,,,,3,,,4,,5,,6,8,,7,,,9,,,11,,,13,,,,,,,,,,,,,,",
+      "update_seconds" : 10,
+      "index" : 3
+    },
+    {
+      "latitude" : 36.97862667,
+      "longitude" : -122.05417,
+      "timestamp" : 1425959437,
+      "route" : "LOOP",
+      "id" : 7935,
+      "predictions" : "8,,,7,,,6,5,4,,3,2,,1,,0,,,15,,14,13,,12,11,,10,9,,,,,,,,,,,,,,,",
+      "update_seconds" : 10,
+      "index" : 3
+    },
+    {
+      "latitude" : 36.99744833,
+      "longitude" : -122.05523,
+      "timestamp" : 1425959438,
+      "route" : "LOOP",
+      "id" : 7936,
+      "predictions" : "4,,,3,,,2,1,0,,15,14,,13,,12,,,11,,10,9,,8,7,,6,5,,,,,,,,,,,,,,,",
+      "update_seconds" : 10,
+      "index" : 3
+    }
+  ],
+  "curr_time" : 1425959440
+}
