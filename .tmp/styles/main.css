@@ -105,8 +105,7 @@ body {
   left: 15px;
   vertical-align: middle;
 }
-.reveal-animation.ng-enter {
- -webkit-transition: 1s linear all; /* Safari/Chrome */
+.reveal-animation.ng-enter { /* Safari/Chrome */
  transition: 1s linear all; /* All other modern browsers and IE10+ */
  opacity: 0;
 }

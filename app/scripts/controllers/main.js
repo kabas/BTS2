@@ -109,59 +109,29 @@ angular.module('BTS2App')
   		original.longitude = newBus.longitude;
   		return original;
   	};
-  	/*
   	
-  	$scope.createMarker = function(marker){
-  		var newMarker = {};
+    $scope.updateIOSScreenSize = function(){
+      if (
+            navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && 
+            window.innerHeight != document.documentElement.clientHeight
+        ) {
+            var fixViewportHeight = function() {
+                document.documentElement.style.height = window.innerHeight + "px";
+                if (document.body.scrollTop !== 0) {
+                    window.scrollTo(0, 0);
+                }
+            };
 
-  		newMarker['id'] = marker.id;
-      newMarker['type'] = marker.type;
-  		newMarker['latitude'] = marker.lat;
-  		newMarker['longitude'] = marker.lon;
-      newMarker['zIndex'] = 10;
+            window.addEventListener("scroll", fixViewportHeight, false);
+            window.addEventListener("orientationchange", fixViewportHeight, false);
+            fixViewportHeight();
 
-  		if(marker.type === 'LOOP'){
-  			newMarker.icon = {
-  	        	url: '../../images/shuttleIcons/routeOLoop_30.png',
-  	        	anchor: new google.maps.Point(15,15),
-  	        	origin: new google.maps.Point(0,0),
-  	        };
-          }else if(marker.type === 'UPPER CAMPUS'){
-          	newMarker.icon = {
-              	url: '../../images/shuttleIcons/routeuc_30.png',
-              	anchor: new google.maps.Point(15,15),
-              	origin: new google.maps.Point(0,0),
-              };
-         	} else if(marker.type === 'NIGHT OWL'){
-          	newMarker.icon = {
-              	url: '../../images/shuttleIcons/routeno_30.png',
-              	anchor: new google.maps.Point(15,15),
-              	origin: new google.maps.Point(0,0),
-              };
-         	} else if(marker.type === 'LOOP OUT OF SERVICE AT BARN THEATER' || marker.type === 'OUT OF SERVICE/SORRY'){
-              newMarker.icon = {
-                url: '../../images/shuttleIcons/routeos_30.png',
-                anchor: new google.maps.Point(15,15),
-                origin: new google.maps.Point(0,0),
-              };
-
-         }else{
-          	newMarker.icon = {
-              	url: '../../images/shuttleIcons/routeOLoop_30.png',
-              	anchor: new google.maps.Point(15,15),
-              	origin: new google.maps.Point(0,0),
-              };
-  		}
-
-  		return newMarker;
-  	};
-  	
-  	$scope.updateMarker = function(original, newBus){
-  		original.latitude = newBus.lat;
-  		original.longitude = newBus.lon;
-  		return original;
-  	};
-    */
+            document.body.style.webkitTransform = "translate3d(0,0,0)";
+        }
+       if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i)) {
+            $('html').addClass('ipad ios7');
+        } 
+    };
   	
 	
 });

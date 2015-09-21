@@ -21,6 +21,212 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+*/  
+
+'use strict';
+
+/**
+ * @ngdoc overview
+ * @name BTS2App
+ * @description
+ * # BTS2App angular module
+ *
+ * Main module of the application.
+ */
+var btsModule = angular
+  .module('BTS2App', [
+    'ngAnimate',
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ngTouch',
+    'uiGmapgoogle-maps',
+    'ngMaterial',
+    'ngMdIcons'
+  ])
+  .config(["$routeProvider", "$locationProvider", function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+    
+    $locationProvider.html5Mode(true);
+  }]);
+
+  btsModule.config(["uiGmapGoogleMapApiProvider", function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyDartvWxBRwtQW213XfzXBPSuBn-vn-c1E',
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+    });
+  }]);
+
+/*
+The MIT License (MIT)
+
+Copyright (c) 2015 Kevin Abas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/  
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name BTS2App.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller for global information
+ */
+angular.module('BTS2App')
+  .controller('MainCtrl', ["$scope", function ($scope) {
+  	
+  	$scope.createMarker = function(marker){
+  		var newMarker = {};
+
+  		newMarker.id = marker.id;
+  		newMarker.latitude = marker.latitude;
+      newMarker.route = marker.route;
+  		newMarker.longitude = marker.longitude;
+      newMarker.zIndex = 10;
+
+		if(marker.route === 'LOOP'){
+      //Find out if Inner or Outer Loop
+      var stopPredictionSlope = 0;
+      var prevP, currP;
+      marker.predictions = marker.predictions.split(',');
+      prevP = -1;
+      for(var s=marker.predictions.length-1; s >= 0; s--){
+        if(marker.predictions[s]){
+          currP = marker.predictions[s];
+          if(currP < prevP){
+            stopPredictionSlope++;
+          }
+          if(stopPredictionSlope > 3) {
+              newMarker.icon = {
+                url: '../../images/shuttleIcons/routeILoop_30.png',
+                anchor: new google.maps.Point(15,15),
+                origin: new google.maps.Point(0,0),
+              };
+              newMarker.route = 'INNER LOOP';
+              return newMarker;
+          }
+          prevP = currP;
+        }
+      }
+      newMarker.icon = {
+        url: '../../images/shuttleIcons/routeOLoop_30.png',
+        anchor: new google.maps.Point(15,15),
+        origin: new google.maps.Point(0,0),
+      };
+      newMarker.route = 'OUTER LOOP';
+    }else if(marker.route === 'UPPER CAMPUS'){
+      newMarker.icon = {
+        url: '../../images/shuttleIcons/routeuc_30.png',
+        anchor: new google.maps.Point(15,15),
+        origin: new google.maps.Point(0,0),
+      };
+    } else if(marker.route === 'NIGHT OWL'){
+      newMarker.icon = {
+        url: '../../images/shuttleIcons/routeno_30.png',
+        anchor: new google.maps.Point(15,15),
+        origin: new google.maps.Point(0,0),
+      };
+    } else if(marker.route === 'LOOP OUT OF SERVICE AT BARN THEATER' || marker.route === 'OUT OF SERVICE/SORRY'){
+      newMarker.icon = {
+        url: '../../images/shuttleIcons/routeos_30.png',
+        anchor: new google.maps.Point(15,15),
+        origin: new google.maps.Point(0,0),
+      };
+
+    }else{
+            newMarker.icon = {
+                url: '../../images/shuttleIcons/routesp_30.png',
+                anchor: new google.maps.Point(15,15),
+                origin: new google.maps.Point(0,0),
+              };
+      }
+
+  		return newMarker;
+  	};
+
+  	$scope.updateMarker = function(original, newBus){
+  		original.latitude = newBus.latitude;
+  		original.longitude = newBus.longitude;
+  		return original;
+  	};
+  	
+    $scope.updateIOSScreenSize = function(){
+      if (
+            navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i) && 
+            window.innerHeight != document.documentElement.clientHeight
+        ) {
+            var fixViewportHeight = function() {
+                document.documentElement.style.height = window.innerHeight + "px";
+                if (document.body.scrollTop !== 0) {
+                    window.scrollTo(0, 0);
+                }
+            };
+
+            window.addEventListener("scroll", fixViewportHeight, false);
+            window.addEventListener("orientationchange", fixViewportHeight, false);
+            fixViewportHeight();
+
+            document.body.style.webkitTransform = "translate3d(0,0,0)";
+        }
+       if (navigator.userAgent.match(/iPad;.*CPU.*OS 7_\d/i)) {
+            $('html').addClass('ipad ios7');
+        } 
+    };
+  	
+	
+}]);
+
+/*
+The MIT License (MIT)
+
+Copyright (c) 2015 Kevin Abas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
 */ 	
 
 'use strict';
@@ -33,7 +239,7 @@ SOFTWARE.
  * Controller of The google maps element
  */
 angular.module('BTS2App')
-  .controller('MapCtrl', function ($rootScope, $scope, $http, $timeout,
+  .controller('MapCtrl', ["$rootScope", "$scope", "$http", "$timeout", "$window", "$log", "uiGmapGoogleMapApi", "$mdDialog", "$mdSidenav", function ($rootScope, $scope, $http, $timeout,
   										$window, $log, uiGmapGoogleMapApi, $mdDialog, $mdSidenav) {
     var timeoutID = []; // Identifier for Data retrieval timer, can be used to stop.
     $scope.animateTimeout = 0;
@@ -502,6 +708,192 @@ angular.module('BTS2App')
 	
 	$scope.showTestDialog();
 
-});
+}]);
 
 
+
+/*
+The MIT License (MIT)
+
+Copyright (c) 2015 Kevin Abas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/  
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name BTS2App.controller:PanelCtrl
+ * @description
+ * # PanelCtrl
+ * Controller of the Side Panel
+ */
+angular.module('BTS2App')
+  .controller('PanelCtrl', ["$rootScope", "$scope", "$timeout", "$mdSidenav", "$mdUtil", function ($rootScope, $scope, $timeout, $mdSidenav, $mdUtil) {
+ 	//$scope.toggleLeft = buildToggler('left');
+ 	//$rootScope.toggleLeftButton = buildToggler('navButton');
+ 	$rootScope.showPanel = true;
+ 	$scope.toggleLeft();
+ 	$scope.oneAtATime = true;
+    /**
+     * Build handler to open/close a SideNav; when animation finishes
+     * report completion in console
+     */
+    function buildToggler(navID) {
+      var debounceFn =  $mdUtil.debounce(function(){
+            $mdSidenav(navID)
+              .toggle()
+              .then(function () {
+              });
+          },300);
+      $rootScope.showPanel = !($scope.showPanel);
+      return debounceFn;
+    }
+
+    $scope.close = function () {
+      $mdSidenav('left').close()
+        .then(function () {
+        });
+        $rootScope.showPanel = false;
+        if(!$mdSidenav('navButton').isOpen()){
+        	$rootScope.toggleLeftButton();
+        }
+    };
+	
+}]);
+/*
+The MIT License (MIT)
+
+Copyright (c) 2015 Kevin Abas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/ 	
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name BTS2App.controller:MapCtrl
+ * @description
+ * # DialogCtrl
+ * Controller for marker dialogs
+ */
+
+function DialogController($scope, $mdDialog, stop, id, type, map, maps, route) {
+	$scope.currentStopName = stop;
+	$scope.currentStopType = type;
+	if(route){
+		$scope.Route = route;
+		if(route === 'OUTER LOOP'){
+			$scope.routeColor = '#03A9F4';
+		}else if(route === 'INNER LOOP') {
+			$scope.routeColor = '#e8721f';
+	    }else if(route === 'UPPER CAMPUS'){
+	    	$scope.routeColor = '#FFEB3B';
+	   	} else if(route === 'NIGHT OWL'){
+	    	$scope.routeColor = '#009688';
+	   	} else if(route === 'LOOP OUT OF SERVICE AT BARN THEATER' || route === 'OUT OF SERVICE/SORRY'){
+	        $scope.routeColor = '#F44336';
+	   	}else{
+	    	$scope.routeColor = '#607D8B';
+		}
+	}
+	$scope.photo = 'images/stopPhotos/' + type + stop + '/' + id + '.jpg';
+	$scope.stopPreview = {'background':'url('+$scope.photo+')'};
+	$scope.hide = function() {
+	$mdDialog.hide();
+	};
+
+	$scope.showStreetView = function(){
+		var streetViewData = {
+			'OuterMcLaughlin & Science Hill':{lat:36.999935,lng:-122.062135,head:296.89,pitch:0},
+			'OuterHeller & Kresge College':{lat:36.999241,lng:-122.064452,head:270.54,pitch:-10},
+			'OuterMcLaughlin & College 9 & 10 - Health Center':{lat:36.999856,lng:-122.058251,head:339.05,pitch:5},
+			'OuterMcLaughlin & Crown College':{lat:36.998954,lng:-122.055286,head:40.62,pitch:-5},
+			'OuterHagar & Bookstore-Stevenson College':{lat:36.997219,lng:-122.055263,head:57.52,pitch:5},
+			'OuterHagar & Field House East':{lat:36.994269,lng:-122.055624,head:69.66,pitch:-5},
+			'OuterHagar & East Remote':{lat:36.991304,lng:-122.054784,head:92.8,pitch:-5},
+			'OuterHagar & Lower Quarry Rd':{lat:36.985984,lng:-122.053706,head:101.89,pitch:0},
+			'OuterCoolidge & Hagar':{lat:36.981484,lng:-122.051999,head:180.41,pitch:-5},
+			'OuterCoolidge & Main Entrance':{lat:36.977468,lng:-122.053582,head:28.03,pitch:-5},
+			'OuterHigh & Western Dr':{lat:36.978694,lng:-122.057741,head:259.02,pitch:-5},
+			'OuterEmpire Grade & Tosca Terrace':{lat:36.97984,lng:-122.059084,head:209.46,pitch:-5},
+			'OuterEmpire Grade & Arboretum':{lat:36.983755,lng:-122.064933,head:181.41,pitch:0},
+			'OuterHeller & Oakes College':{lat:36.989899,lng:-122.067078,head:282.16,pitch:-5},
+			'OuterHeller & Family Student Housing':{lat:36.991905,lng:-122.066699,head:216.25,pitch:5},
+			'OuterHeller & College 8 & Porter':{lat:36.992896,lng:-122.065127,head:349.44,pitch:5},
+			'InnerHeller & Kerr Hall':{lat:36.996805,lng:-122.063655,head:40.17,pitch:-5},
+			'InnerHeller & Kresge College':{lat:36.99911,lng:-122.064476,head:84.33,pitch:-10},
+			'InnerMcLaughlin & Science Hill':{lat:36.999935,lng:-122.062135,head:142.31,pitch:-10},
+			'InnerMcLaughlin & College 9 & 10 - Health Center':{lat:36.999845,lng:-122.05824,head:181.55,pitch:-5},
+			'InnerHagar & Bookstore':{lat:36.996823,lng:-122.055366,head:212.14,pitch:-10},
+			'InnerHagar & East Remote':{lat:36.991469,lng:-122.054875,head:201.42,pitch:-10},
+			'InnerHagar & Lower Quarry Rd':{lat:36.985671,lng:-122.053489,head:203.61,pitch:-5},
+			'InnerCoolidge & Hagar':{lat:36.981457,lng:-122.052044,head:334.96,pitch:5},
+			'InnerHigh & Western Dr':{lat:36.978641,lng:-122.057663,head:5.51,pitch:-5},
+			'InnerHigh & Barn Theater':{lat:36.977237,lng:-122.054173,head:321.62,pitch:-5},
+			'InnerEmpire Grade & Arboretum':{lat:36.982496,lng:-122.062425,head:351.79,pitch:-5},
+			'InnerHeller & Oakes College':{lat:36.99052,lng:-122.066254,head:78.52,pitch:5},
+			'InnerHeller & College 8 & Porter':{lat:36.992894,lng:-122.064712,head:217.81,pitch:-5}
+		};
+		$scope.hide();
+		$scope.sv = new google.maps.StreetViewPanorama(document.getElementById('map'),{
+			//navigationControl: false,
+			addressControlOptions:{
+									position: 7
+			},
+			enableCloseButton: true,
+			panControlOptions:{
+								position : 7,
+			},
+			zoomControl: false,
+			linksControl: false,
+			position: new google.maps.LatLng(streetViewData[$scope.currentStopType+$scope.currentStopName].lat,
+												 streetViewData[$scope.currentStopType+$scope.currentStopName].lng),
+			pov: {
+				heading: streetViewData[($scope.currentStopType+$scope.currentStopName)].head,
+			pitch: streetViewData[($scope.currentStopType+$scope.currentStopName)].pitch
+			},
+			visible: true
+		});
+	}; 	
+
+}
+DialogController.$inject = ['$scope', '$mdDialog', 'stop', 'id', 'type', 'map', 'maps', 'marker'];
+angular.module('BTS2App')
+	.controller( 'DialogController', [ '$scope', '$mdDialog', 'stop', 'id', 'type', 'map', 'maps', 'marker', DialogController ] );
