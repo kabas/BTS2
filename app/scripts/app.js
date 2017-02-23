@@ -43,7 +43,8 @@ var btsModule = angular
     'ngTouch',
     'uiGmapgoogle-maps',
     'ngMaterial',
-    'ngMdIcons'
+    'ngMdIcons',
+    'ngAria'
   ])
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
