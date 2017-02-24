@@ -26,7 +26,7 @@ SOFTWARE.
 
 <div class="mapContainer" ng-controller="MapCtrl">
 	
-	<ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' control="map.control" options='map.options' >
+	<ui-gmap-google-map id="map" center='map.center' zoom='map.zoom' control="map.control" options='map.options' aria-label="Google map" >
 	  <ui-gmap-markers models="map.markers" coords="'self'" icon="'icon'" click="onClicked" options="{zIndex:5}" labelContent="'title'" labelAnchor="22 0" labelClass="marker-labels" data-tap-disabled="true">
 	  		
             </ui-gmap-windows>
