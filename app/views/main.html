@@ -112,11 +112,11 @@ SOFTWARE.
 <div id='footerBlueContainer'>
   
   <div ng-animate='reveal-animation' ng-show='(busCount > 0) && notMobile'>
-    <div id='busCountOnline' ng-cloak>
+    <div id='busCountOnline' ng-cloak aria-hidden="true" >
       {{busCount}}
     </div>
   
-    <div id='busCountMessage' style='color: #139901;' ng-cloak>
+    <div id='busCountMessage' style='color: #139901;' ng-cloak >
        {{busCount>1 ? 'Shuttles In Service' :'Shuttle In Service'}}  
     </div> 
   </div>
