@@ -31,8 +31,10 @@ to better optimize dependency management and code optimization scripts. Tools li
 
 ##To Build:
 In the root directory of the repo run: <br>
+<code> bower install </code> <br>
+
 <code> grunt build  </code> <br>
-This will create the deployable files in the /dist directory.
+This will create the deployable files in the /dist directory. If you generate any errors during the build, you might need to update your generators. Run <code> yo </code> and select upgrade generators.
 
 ##To Test:
 Change into the /app directory (or /dist directory after building) and run:<br>
