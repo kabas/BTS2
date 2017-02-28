@@ -208,15 +208,18 @@ angular.module('BTS2App')
 
 	    /*Currently using JSONP to prevent Cross origin issues*/
 	   $.ajax({
-   		url: 'http://skynet.soe.ucsc.edu/bts/coord2.jsonp',
-    	dataType: 'jsonp',
-    	jsonp : true,
+   		//url: 'http://skynet.soe.ucsc.edu/bts/coord2.jsonp',
+   		url: 'http://bts.ucsc.edu:8081/location/get',
+    	dataType: 'json',
+    	jsonp : false,
     	cache: false,
     	jsonpCallback: 'parseResponse',
     	success: function(data) {
         console.log(data);
-   
-	    		$rootScope.busCount = data.count;
+
+        //console.log(data.length);
+
+	    		$rootScope.busCount = data.length;
 	      		if($rootScope.busCount === 0 && (!$scope.noBusMessage)){
 	  				$scope.showNoBuses();
 	  			}
