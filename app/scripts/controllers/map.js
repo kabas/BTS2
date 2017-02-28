@@ -217,8 +217,6 @@ angular.module('BTS2App')
     	success: function(data) {
         console.log(data);
 
-        //console.log(data.length);
-
 	    		$rootScope.busCount = data.length;
 	      		if($rootScope.busCount === 0 && (!$scope.noBusMessage)){
 	  				$scope.showNoBuses();
@@ -226,24 +224,25 @@ angular.module('BTS2App')
 
 	  			//Add new markers if needed
 	  			var add;
-	  			for (var j = data.count - 1; j >= 0; j--) {
+	  			for (var j = data.length - 1; j >= 0; j--) {
 	  				add = true;
 	  				for (var z = $scope.markerIDs.length - 1; z >= 0; z--) {
-	  					if ( $scope.markerIDs[z] === data.markers[j].id ){
+	  					if ( $scope.markerIDs[z] === data[j].id ){
 	      					add = false;
 	      				}
 	  				};
 	  				if ( add ){
-	  					$scope.map.markers.push($scope.createMarker(data.markers[j]));
-	  					$scope.markerIDs.push(data.markers[j].id);
+	  					$scope.map.markers.push($scope.createMarker(data[j]));
+	  					$scope.markerIDs.push(data[j].id);
+	  					console.log('added is true');
 	  				}
 	  			};
 	  			//sanitize marker array for old markers
 	  			var remove;
 	  			for (var k = $scope.map.markers.length - 1; k >= 0; k--) {
 	  				remove = true;
-	  				for (var l = data.count - 1; l >= 0; l--) {
-	  					if($scope.map.markers[k].id === data.markers[l].id){
+	  				for (var l = data.length - 1; l >= 0; l--) {
+	  					if($scope.map.markers[k].id === data[l].id){
 	  						remove = false;
 	  					}
 	  				};
@@ -259,13 +258,13 @@ angular.module('BTS2App')
 
       			//animate marker updates
 	  			for (var d = $scope.map.markers.length - 1; d >= 0; d--) {
-	  				for (var e = data.count - 1; e >= 0; e--) {
-	  					if($scope.map.markers[d].id === data.markers[e].id){
+	  				for (var e = data.length - 1; e >= 0; e--) {
+	  					if($scope.map.markers[d].id === data[e].id){
 	  						if($rootScope.notMobile){
-	  						animateBus(d,data.markers[e]);
+	  						animateBus(d,data[e]);
 	  						}else{
-	  							$scope.map.markers[d].latitude = data.markers[e].latitude;
-	  							$scope.map.markers[d].longitude = data.markers[e].longitude;
+	  							$scope.map.markers[d].latitude = data[e].latitude;
+	  							$scope.map.markers[d].longitude = data[e].longitude;
 	  						}
 	  					}
 	  				};
