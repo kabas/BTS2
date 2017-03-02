@@ -42,12 +42,12 @@ Change into the /app directory (or /dist directory after building) and run:<br>
 A local nodeJS server will be run and you can see the app at http://localhost:9000
 
 ##What Does What
-*AngularJS is acting as the front end UI layer
-*A Go app acts an API to pull live data from the campus shuttles with GPS devices.
-*A MySQL DB is used to store information about the shuttles, routes and hardware.
-*bts.ucsc.edu is a SmartOS VM running the API and web layers.
-*bts-dev.ucsc.edu is a dev VM.
-*bts-mysql.ucsc.edu is the DB server.
-*There is (was) an Android app available in the store.
-.An iOS app was never released but might make a good project.
+- AngularJS is acting as the front end UI layer
+- A Go app acts an API to pull live data from the campus shuttles with GPS devices.
+- A MySQL DB is used to store information about the shuttles, routes and hardware.
+- bts.ucsc.edu is a SmartOS VM running the API and web layers.
+- bts-dev.ucsc.edu is a dev VM.
+- bts-mysql.ucsc.edu is the DB server.
+- There is (was) an Android app available in the store.
+- An iOS app was never released but might make a good project.
 
