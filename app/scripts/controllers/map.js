@@ -167,6 +167,8 @@ angular.module('BTS2App')
 
     	/*******  animation code *************/
     	// adopted from : http://jsfiddle.net/rcravens/RFHKd/13/
+    	// newBusLocation is the data object passed in from our API
+    	// NOTE: that the elements are data.id, data.lat, data.lon, data.type
     	var animateBus = function(originalBusIndex, newBusLocation){
 		    var deltaLat, deltaLng;
     		var AnimationOccured = 0;

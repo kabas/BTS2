@@ -35,58 +35,60 @@ SOFTWARE.
 angular.module('BTS2App')
   .controller('MainCtrl', function ($scope) {
   	
+  	// marker is the data response object that comes from API
+  	// uses lat, lon, type data elements that need to be mapped
+  	// to newMaker elements
   	$scope.createMarker = function(marker){
   		var newMarker = {};
-		console.log(marker);
   		newMarker.id = marker.id;
   		newMarker.latitude = marker.lat;
       	newMarker.route = marker.type;
   		newMarker.longitude = marker.lon;
       	newMarker.zIndex = 10;
 
-		if(marker.route === 'LOOP'){
+		if(marker.type === 'LOOP'){
       //Find out if Inner or Outer Loop
-      var stopPredictionSlope = 0;
-      var prevP, currP;
-      marker.predictions = marker.predictions.split(',');
-      prevP = -1;
-      for(var s=marker.predictions.length-1; s >= 0; s--){
-        if(marker.predictions[s]){
-          currP = marker.predictions[s];
-          if(currP < prevP){
-            stopPredictionSlope++;
-          }
-          if(stopPredictionSlope > 3) {
-              newMarker.icon = {
-                url: '../../images/shuttleIcons/routeILoop_30.png',
-                anchor: new google.maps.Point(15,15),
-                origin: new google.maps.Point(0,0),
-              };
-              newMarker.route = 'INNER LOOP';
-              return newMarker;
-          }
-          prevP = currP;
-        }
-      }
+      // var stopPredictionSlope = 0;
+      // var prevP, currP;
+      // marker.predictions = marker.predictions.split(',');
+      // prevP = -1;
+      // for(var s=marker.predictions.length-1; s >= 0; s--){
+      //   if(marker.predictions[s]){
+      //     currP = marker.predictions[s];
+      //     if(currP < prevP){
+      //       stopPredictionSlope++;
+      //     }
+      //     if(stopPredictionSlope > 3) {
+      //         newMarker.icon = {
+      //           url: '../../images/shuttleIcons/routeILoop_30.png',
+      //           anchor: new google.maps.Point(15,15),
+      //           origin: new google.maps.Point(0,0),
+      //         };
+      //         newMarker.route = 'INNER LOOP';
+      //         return newMarker;
+      //     }
+      //     prevP = currP;
+      //   }
+      // }
       newMarker.icon = {
         url: '../../images/shuttleIcons/routeOLoop_30.png',
         anchor: new google.maps.Point(15,15),
         origin: new google.maps.Point(0,0),
       };
       newMarker.route = 'OUTER LOOP';
-    }else if(marker.route === 'UPPER CAMPUS'){
+    }else if(marker.type === 'UPPER CAMPUS'){
       newMarker.icon = {
         url: '../../images/shuttleIcons/routeuc_30.png',
         anchor: new google.maps.Point(15,15),
         origin: new google.maps.Point(0,0),
       };
-    } else if(marker.route === 'NIGHT OWL'){
+    } else if(marker.type === 'NIGHT OWL'){
       newMarker.icon = {
         url: '../../images/shuttleIcons/routeno_30.png',
         anchor: new google.maps.Point(15,15),
         origin: new google.maps.Point(0,0),
       };
-    } else if(marker.route === 'LOOP OUT OF SERVICE AT BARN THEATER' || marker.route === 'OUT OF SERVICE/SORRY'){
+    } else if(marker.type === 'LOOP OUT OF SERVICE AT BARN THEATER' || marker.route === 'OUT OF SERVICE/SORRY'){
       newMarker.icon = {
         url: '../../images/shuttleIcons/routeos_30.png',
         anchor: new google.maps.Point(15,15),
@@ -104,6 +106,8 @@ angular.module('BTS2App')
   		return newMarker;
   	};
 
+	// PSM where is original and newBus coming from?
+	// $scope.updateMarker is set here but not called elsewhere?
   	$scope.updateMarker = function(original, newBus){
   		original.latitude = newBus.latitude;
   		original.longitude = newBus.longitude;
