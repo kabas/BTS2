@@ -191,10 +191,10 @@ angular.module('BTS2App')
 		        }
 		    };
 
-			if(($scope.map.markers[originalBusIndex].latitude !==newBusLocation.latitude) || 
-					($scope.map.markers[originalBusIndex].longitude !==newBusLocation.longitude)){
-				deltaLat = ( newBusLocation.latitude - $scope.map.markers[originalBusIndex].latitude)/numDeltas;
-		        deltaLng = ( newBusLocation.longitude - $scope.map.markers[originalBusIndex].longitude)/numDeltas;
+			if(($scope.map.markers[originalBusIndex].latitude !==newBusLocation.lat) || 
+					($scope.map.markers[originalBusIndex].longitude !==newBusLocation.lon)){
+				deltaLat = ( newBusLocation.lat - $scope.map.markers[originalBusIndex].latitude)/numDeltas;
+		        deltaLng = ( newBusLocation.lon - $scope.map.markers[originalBusIndex].longitude)/numDeltas;
 		       	if((deltaLat!==0) &&(deltaLng!==0)){
 		       		moveMarker();
 		       	}
@@ -207,102 +207,198 @@ angular.module('BTS2App')
 	    /***************************************/
 
 	    /*Currently using JSONP to prevent Cross origin issues*/
-	   $.ajax({
-   		//url: 'http://skynet.soe.ucsc.edu/bts/coord2.jsonp',
-   		url: 'http://bts.ucsc.edu:8081/location/get',
-    	dataType: 'json',
-    	jsonp : false,
-    	cache: false,
-    	jsonpCallback: 'parseResponse',
-    	success: function(data) {
-        console.log(data);
+	   // $.ajax({
+   	// 	//url: 'http://skynet.soe.ucsc.edu/bts/coord2.jsonp',
+   	// 	url: 'http://bts.ucsc.edu:8081/location/get',
+    // 	dataType: 'json',
+    // 	jsonp : false,
+    // 	cache: false,
+    // 	jsonpCallback: 'parseResponse',
+    // 	success: function(data) {
+    //     console.log(data);
 
-	    		$rootScope.busCount = data.length;
-	      		if($rootScope.busCount === 0 && (!$scope.noBusMessage)){
-	  				$scope.showNoBuses();
-	  			}
+	   //  		$rootScope.busCount = data.length;
+	   //    		if($rootScope.busCount === 0 && (!$scope.noBusMessage)){
+	  	// 			$scope.showNoBuses();
+	  	// 		}
 
-	  			//Add new markers if needed
-	  			var add;
-	  			for (var j = data.length - 1; j >= 0; j--) {
-	  				add = true;
-	  				for (var z = $scope.markerIDs.length - 1; z >= 0; z--) {
-	  					if ( $scope.markerIDs[z] === data[j].id ){
-	      					add = false;
-	      				}
-	  				};
-	  				if ( add ){
-	  					$scope.map.markers.push($scope.createMarker(data[j]));
-	  					$scope.markerIDs.push(data[j].id);
-	  					console.log('added is true');
-	  				}
-	  			};
-	  			//sanitize marker array for old markers
-	  			var remove;
-	  			for (var k = $scope.map.markers.length - 1; k >= 0; k--) {
-	  				remove = true;
-	  				for (var l = data.length - 1; l >= 0; l--) {
-	  					if($scope.map.markers[k].id === data[l].id){
-	  						remove = false;
-	  					}
-	  				};
-	  				if(remove === true){
-	  					for (var f = $scope.markerIDs.length - 1; f >= 0; f--) {
-								if($scope.markerIDs[f] === $scope.map.markers[k].id){
-									$scope.markerIDs.splice(f,1);
-								}
-	  					}
-	  					$scope.map.markers.splice(k,1);
-	  				}
-	  			};
+	  	// 		//Add new markers if needed
+	  	// 		var add;
+	  	// 		for (var j = data.length - 1; j >= 0; j--) {
+	  	// 			add = true;
+	  	// 			for (var z = $scope.markerIDs.length - 1; z >= 0; z--) {
+	  	// 				if ( $scope.markerIDs[z] === data[j].id ){
+	   //    					add = false;
+	   //    				}
+	  	// 			};
+	  	// 			if ( add ){
+	  	// 				$scope.map.markers.push($scope.createMarker(data[j]));
+	  	// 				$scope.markerIDs.push(data[j].id);
+	  	// 				console.log('added is true');
+	  	// 			}
+	  	// 		};
+	  	// 		//sanitize marker array for old markers
+	  	// 		var remove;
+	  	// 		for (var k = $scope.map.markers.length - 1; k >= 0; k--) {
+	  	// 			remove = true;
+	  	// 			for (var l = data.length - 1; l >= 0; l--) {
+	  	// 				if($scope.map.markers[k].id === data[l].id){
+	  	// 					remove = false;
+	  	// 				}
+	  	// 			};
+	  	// 			if(remove === true){
+	  	// 				for (var f = $scope.markerIDs.length - 1; f >= 0; f--) {
+				// 				if($scope.markerIDs[f] === $scope.map.markers[k].id){
+				// 					$scope.markerIDs.splice(f,1);
+				// 				}
+	  	// 				}
+	  	// 				$scope.map.markers.splice(k,1);
+	  	// 			}
+	  	// 		};
 
-      			//animate marker updates
-	  			for (var d = $scope.map.markers.length - 1; d >= 0; d--) {
-	  				for (var e = data.length - 1; e >= 0; e--) {
-	  					if($scope.map.markers[d].id === data[e].id){
-	  						if($rootScope.notMobile){
-	  						animateBus(d,data[e]);
-	  						}else{
-	  							$scope.map.markers[d].latitude = data[e].latitude;
-	  							$scope.map.markers[d].longitude = data[e].longitude;
-	  						}
-	  					}
-	  				};
-	  			};
+    //   			//animate marker updates
+	  	// 		for (var d = $scope.map.markers.length - 1; d >= 0; d--) {
+	  	// 			for (var e = data.length - 1; e >= 0; e--) {
+	  	// 				if($scope.map.markers[d].id === data[e].id){
+	  	// 					if($rootScope.notMobile){
+	  	// 					animateBus(d,data[e]);
+	  	// 					}else{
+	  	// 						$scope.map.markers[d].latitude = data[e].latitude;
+	  	// 						$scope.map.markers[d].longitude = data[e].longitude;
+	  	// 					}
+	  	// 				}
+	  	// 			};
+	  	// 		};
 
-      			_.each($scope.map.markers, function (marker) {
-				    marker.closeClick = function () {
-				       // marker.showWindow = false;
-				        _.defer(function(){$scope.$apply();});
-				    };
-				    marker.onClicked = function () {
-				       $scope.map.center = {latitude: marker.latitude,
-		        			longitude: marker.longitude};
-				       onClickedBus(marker);
+    //   			_.each($scope.map.markers, function (marker) {
+				//     marker.closeClick = function () {
+				//        // marker.showWindow = false;
+				//         _.defer(function(){$scope.$apply();});
+				//     };
+				//     marker.onClicked = function () {
+				//        $scope.map.center = {latitude: marker.latitude,
+		  //       			longitude: marker.longitude};
+				//        onClickedBus(marker);
 				       
-				    };
-				});
+				//     };
+				// });
 
-				timeoutID.push($timeout(getData, 3000));
+				// timeoutID.push($timeout(getData, 3000));
 
-	      		$window.onblur = function () {
-	      			for (var i = timeoutID.length - 1; i >= 0; i--) {
-	      				$timeout.cancel(timeoutID[i]);
-	      			};
-	      			timeoutID.splice(0,timeoutID.length);
-					//$timeout.cancel(timeoutID);
-					$timeout.cancel($scope.animateTimeout);
-					$scope.map.markers.splice(0,$scope.map.markers.length);
-					$scope.markerIDs.splice(0,$scope.markerIDs.length);
+	   //    		$window.onblur = function () {
+	   //    			for (var i = timeoutID.length - 1; i >= 0; i--) {
+	   //    				$timeout.cancel(timeoutID[i]);
+	   //    			};
+	   //    			timeoutID.splice(0,timeoutID.length);
+				// 	//$timeout.cancel(timeoutID);
+				// 	$timeout.cancel($scope.animateTimeout);
+				// 	$scope.map.markers.splice(0,$scope.map.markers.length);
+				// 	$scope.markerIDs.splice(0,$scope.markerIDs.length);
 					
-				};
-				$window.onfocus = function () {
-					//Restart data refresh requests
-					getData();
-				}; 
+				// };
+				// $window.onfocus = function () {
+				// 	//Restart data refresh requests
+				// 	getData();
+				// }; 
 
-			} 
-		});		
+	$http.get("http://bts.ucsc.edu:8081/location/get").success(function(data) {
+	console.dir(data);
+
+	$rootScope.busCount = data.length;
+	if ($rootScope.busCount === 0 && (!$scope.noBusMessage)) {
+		$scope.showNoBuses();
+	}
+
+	//Add new markers if needed
+	var add;
+	for (var j = data.length -1; j >= 0; j--) {
+		add = true;
+		for (var z = $scope.markerIDs.length - 1; z >= 0; z--) {
+			if ( $scope.markerIDs[z] === data[j].id) {
+				add = false;
+			}
+		};
+		if (add) {
+			$scope.map.markers.push($scope.createMarker(data[j]));
+	  		$scope.markerIDs.push(data[j].id);
+	  	}
+	}
+
+	//sanitize marker array for old markers
+	var remove;
+		for (var k = $scope.map.markers.length - 1; k >= 0; k--) {
+			remove = true;
+			for (var l = data.length - 1; l >= 0; l--) {
+				if ($scope.map.markers[k].id === data[l].id) {
+					remove = false;
+				}
+			}
+			if(remove === true) {
+				for (var f = $scope.markerIDs.length - 1; f >= 0; f--) {
+					if ($scope.markerIDs[f] === $scope.map.markers[k].id) {
+						$scope.markerIDs.splice(f,1);
+					}
+				}
+				$scope.map.markers.splice(k,1);
+			}
+		}
+
+		//animate marker updates
+		for (var d = $scope.map.markers.length - 1; d >= 0; d--) {
+			for (var e = data.length - 1; e >= 0; e--) {
+				if ($scope.map.markers[d].id === data[e].id) {
+					if ($rootScope.notMobile) {
+						// PSM
+						$scope.map.markers[d].latitude = data[e].lat;
+						$scope.map.markers[d].longitude = data[e].lon;
+						$scope.map.markers[d].route = data[e].type;
+
+						animateBus(d,data[e]);
+
+					} else {
+						$scope.map.markers[d].latitude = data[e].lat;
+						$scope.map.markers[d].longitude = data[e].lon;
+						$scope.map.markers[d].route = data[e].type;
+					}
+				}
+			};
+		};
+
+
+		_.each($scope.map.markers, function (marker) {
+			marker.closeClick = function () {
+			// marker.showWindow = false;
+			_.defer(function(){
+				$scope.$apply();
+			});
+		};
+
+		marker.onClicked = function () {
+			$scope.map.center = {latitude: marker.latitude,
+				longitude: marker.longitude};
+				onClickedBus(marker);
+			};
+		});
+
+		timeoutID.push($timeout(getData, 3000));
+
+		$window.onblur = function () {
+			for (var i = timeoutID.length - 1; i >= 0; i--) {
+			$timeout.cancel(timeoutID[i]);
+			};
+				timeoutID.splice(0,timeoutID.length);
+				//$timeout.cancel(timeoutID);
+				$timeout.cancel($scope.animateTimeout);
+				$scope.map.markers.splice(0,$scope.map.markers.length);
+				$scope.markerIDs.splice(0,$scope.markerIDs.length);
+
+		};
+		$window.onfocus = function () {
+			//Restart data refresh requests
+			getData();
+	};
+
+			});	// end $http.get()
 
 	};
 
@@ -318,20 +414,20 @@ angular.module('BTS2App')
 	var fillStops = function() {
 
 		var InnerLoopstopData = [
-									 [5, 36.9999313354492, -122.062049865723, 'McLaughlin & Science Hill'],
-									 [2, 36.9967041015625, -122.063583374023, 'Heller & Kerr Hall'],
-									 [3, 36.999210357666, -122.064338684082, 'Heller & Kresge College'],
-									 [5, 36.9999313354492, -122.062049865723, 'McLaughlin & Science Hill'],
-								 	 [6, 36.9997062683105, -122.05834197998, 'McLaughlin & College 9 & 10 - Health Center'],
-								 	 [10, 36.9966621398926, -122.055480957031, 'Hagar & Bookstore'],
-									 [13, 36.9912567138672, -122.054962158203, 'Hagar & East Remote'],
-									 [15, 36.985523223877, -122.053588867188, 'Hagar & Lower Quarry Rd'],
-									 [17, 36.9815368652344, -122.052131652832, 'Coolidge & Hagar'],
-									 [18, 36.9787902832031, -122.057762145996, 'High & Western Dr'],
-									 [20, 36.9773025512695, -122.054328918457, 'High & Barn Theater'],
-									 [23, 36.9826698303223, -122.062492370605, 'Empire Grade & Arboretum'],
-									 [26, 36.9905776977539, -122.066116333008, 'Heller & Oakes College'],
-									 [29, 36.9927787780762, -122.064880371094, 'Heller & College 8 & Porter']
+			 [5, 36.9999313354492, -122.062049865723, 'McLaughlin & Science Hill'],
+			 [2, 36.9967041015625, -122.063583374023, 'Heller & Kerr Hall'],
+			 [3, 36.999210357666, -122.064338684082, 'Heller & Kresge College'],
+			 [5, 36.9999313354492, -122.062049865723, 'McLaughlin & Science Hill'],
+		 	 [6, 36.9997062683105, -122.05834197998, 'McLaughlin & College 9 & 10 - Health Center'],
+		 	 [10, 36.9966621398926, -122.055480957031, 'Hagar & Bookstore'],
+			 [13, 36.9912567138672, -122.054962158203, 'Hagar & East Remote'],
+			 [15, 36.985523223877, -122.053588867188, 'Hagar & Lower Quarry Rd'],
+			 [17, 36.9815368652344, -122.052131652832, 'Coolidge & Hagar'],
+			 [18, 36.9787902832031, -122.057762145996, 'High & Western Dr'],
+			 [20, 36.9773025512695, -122.054328918457, 'High & Barn Theater'],
+			 [23, 36.9826698303223, -122.062492370605, 'Empire Grade & Arboretum'],
+			 [26, 36.9905776977539, -122.066116333008, 'Heller & Oakes College'],
+			 [29, 36.9927787780762, -122.064880371094, 'Heller & College 8 & Porter']
 								];
 
 		for (var i = InnerLoopstopData.length - 1; i >= 0; i--) {
@@ -360,22 +456,22 @@ angular.module('BTS2App')
 		    };
 		});
 		var OuterLoopstopData = [
-									[1, 36.9992790222168, -122.064552307129, 'Heller & Kresge College'],
-									[4, 37.0000228881836, -122.062339782715, 'McLaughlin & Science Hill'],
-									[7, 36.9999389648438, -122.058349609375, 'McLaughlin & College 9 & 10 - Health Center'],
-									[8, 36.9990234375, -122.055229187012, 'McLaughlin & Crown College'],
-									[9, 36.9974822998047, -122.055030822754, 'Hagar & Bookstore-Stevenson College'],
-									[11, 36.9942474365234, -122.055511474609, 'Hagar & Field House East'],
-									[12, 36.9912986755371, -122.054656982422, 'Hagar & East Remote'],
-									[14, 36.985912322998, -122.053520202637, 'Hagar & Lower Quarry Rd'],
-									[16, 36.9813537597656, -122.051971435547, 'Coolidge & Hagar'],
-									[19, 36.9776763916016, -122.053558349609, 'Coolidge & Main Entrance'],
-									[21, 36.9786148071289, -122.05785369873, 'High & Western Dr'],
-									[22, 36.9798469543457, -122.059257507324, 'Empire Grade & Tosca Terrace'],
-									[24, 36.9836616516113, -122.064964294434, 'Empire Grade & Arboretum'],
-									[25, 36.989917755127, -122.067230224609, 'Heller & Oakes College'],
-									[27, 36.991828918457, -122.066833496094, 'Heller & Family Student Housing'],
-									[28, 36.992977142334, -122.065223693848, 'Heller & College 8 & Porter']
+			[1, 36.9992790222168, -122.064552307129, 'Heller & Kresge College'],
+			[4, 37.0000228881836, -122.062339782715, 'McLaughlin & Science Hill'],
+			[7, 36.9999389648438, -122.058349609375, 'McLaughlin & College 9 & 10 - Health Center'],
+			[8, 36.9990234375, -122.055229187012, 'McLaughlin & Crown College'],
+			[9, 36.9974822998047, -122.055030822754, 'Hagar & Bookstore-Stevenson College'],
+			[11, 36.9942474365234, -122.055511474609, 'Hagar & Field House East'],
+			[12, 36.9912986755371, -122.054656982422, 'Hagar & East Remote'],
+			[14, 36.985912322998, -122.053520202637, 'Hagar & Lower Quarry Rd'],
+			[16, 36.9813537597656, -122.051971435547, 'Coolidge & Hagar'],
+			[19, 36.9776763916016, -122.053558349609, 'Coolidge & Main Entrance'],
+			[21, 36.9786148071289, -122.05785369873, 'High & Western Dr'],
+			[22, 36.9798469543457, -122.059257507324, 'Empire Grade & Tosca Terrace'],
+			[24, 36.9836616516113, -122.064964294434, 'Empire Grade & Arboretum'],
+			[25, 36.989917755127, -122.067230224609, 'Heller & Oakes College'],
+			[27, 36.991828918457, -122.066833496094, 'Heller & Family Student Housing'],
+			[28, 36.992977142334, -122.065223693848, 'Heller & College 8 & Porter']
 								];
 
 		for (var i = OuterLoopstopData.length - 1; i >= 0; i--) {

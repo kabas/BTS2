@@ -37,12 +37,12 @@ angular.module('BTS2App')
   	
   	$scope.createMarker = function(marker){
   		var newMarker = {};
-
+		console.log(marker);
   		newMarker.id = marker.id;
-  		newMarker.latitude = marker.latitude;
-      newMarker.route = marker.route;
-  		newMarker.longitude = marker.longitude;
-      newMarker.zIndex = 10;
+  		newMarker.latitude = marker.lat;
+      	newMarker.route = marker.type;
+  		newMarker.longitude = marker.lon;
+      	newMarker.zIndex = 10;
 
 		if(marker.route === 'LOOP'){
       //Find out if Inner or Outer Loop
