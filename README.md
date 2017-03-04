@@ -31,10 +31,23 @@ to better optimize dependency management and code optimization scripts. Tools li
 
 ##To Build:
 In the root directory of the repo run: <br>
+<code> bower install </code> <br>
+
 <code> grunt build  </code> <br>
-This will create the deployable files in the /dist directory.
+This will create the deployable files in the /dist directory. If you generate any errors during the build, you might need to update your generators. Run <code> yo </code> and select upgrade generators.
 
 ##To Test:
 Change into the /app directory (or /dist directory after building) and run:<br>
 <code> grunt serve </code> <br>
 A local nodeJS server will be run and you can see the app at http://localhost:9000
+
+##What Does What
+- AngularJS is acting as the front end UI layer
+- A Go app acts an API to pull live data from the campus shuttles with GPS devices.
+- A MySQL DB is used to store information about the shuttles, routes and hardware.
+- bts.ucsc.edu is a SmartOS VM running the API and web layers.
+- bts-dev.ucsc.edu is a dev VM.
+- bts-mysql.ucsc.edu is the DB server.
+- There is (was) an Android app available in the store.
+- An iOS app was never released but might make a good project.
+
