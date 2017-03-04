@@ -35,13 +35,19 @@ SOFTWARE.
 angular.module('BTS2App')
   .controller('MainCtrl', function ($scope) {
   	
+  	// the incoming marker object holds the elements (id, lat, lon, type)
+  	
   	$scope.createMarker = function(marker){
   		var newMarker = {};
 
   		newMarker.id = marker.id;
-  		newMarker.latitude = marker.latitude;
-      newMarker.route = marker.route;
-  		newMarker.longitude = marker.longitude;
+//   		newMarker.latitude = marker.latitude;
+//       newMarker.route = marker.route;
+//   		newMarker.longitude = marker.longitude;
+  		newMarker.latitude = marker.lat;
+      
+      newMarker.route = marker.type;
+  		newMarker.longitude = marker.lon;
       newMarker.zIndex = 10;
 
 		if(marker.route === 'LOOP'){
