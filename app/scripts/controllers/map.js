@@ -178,8 +178,10 @@ angular.module('BTS2App')
     			if($scope.map.markers.length === 0){
     				return;
     			}
+
 		        $scope.map.markers[originalBusIndex].latitude += deltaLat;
 		        $scope.map.markers[originalBusIndex].longitude += deltaLng;
+		        console.log($scope.map.markers[originalBusIndex].latitude);
 
 		        //update fast but asyncronously so to not colide with other updates
 		        _.defer(function(){$scope.$apply();});
@@ -191,10 +193,17 @@ angular.module('BTS2App')
 		        }
 		    };
 
-			if(($scope.map.markers[originalBusIndex].latitude !==newBusLocation.latitude) || 
-					($scope.map.markers[originalBusIndex].longitude !==newBusLocation.longitude)){
-				deltaLat = ( newBusLocation.latitude - $scope.map.markers[originalBusIndex].latitude)/numDeltas;
-		        deltaLng = ( newBusLocation.longitude - $scope.map.markers[originalBusIndex].longitude)/numDeltas;
+		    // PSM adjusted newBuslocation.lat, lon based on second arg being passed in from line 273
+		    // newBusLocation is the data.marker.lat, lng value
+			if(($scope.map.markers[originalBusIndex].latitude !==newBusLocation.lat) || 
+					($scope.map.markers[originalBusIndex].longitude !==newBusLocation.lon)){
+				console.log(newBusLocation.lat + ' - ' + $scope.map.markers[originalBusIndex].latitude);
+
+				deltaLat = ( newBusLocation.lat - $scope.map.markers[originalBusIndex].latitude)/numDeltas;
+		        deltaLng = ( newBusLocation.lon - $scope.map.markers[originalBusIndex].longitude)/numDeltas;
+		        // at this point, we're getting NaN error messages. Need to look into arithmetic above
+		        //console.log('deltaLat ' + deltaLat + ' ' + 'deltaLng' + ' ' + deltaLng);
+
 		       	if((deltaLat!==0) &&(deltaLng!==0)){
 		       		moveMarker();
 		       	}
@@ -208,22 +217,28 @@ angular.module('BTS2App')
 
 	    /*Currently using JSONP to prevent Cross origin issues*/
 	   $.ajax({
-   		url: 'http://skynet.soe.ucsc.edu/bts/coord2.jsonp',
-    	dataType: 'jsonp',
-    	jsonp : true,
+   		//url: 'http://skynet.soe.ucsc.edu/bts/coord2.jsonp',
+   		url: 'http://bts.ucsc.edu:8081/location/get',
+    	dataType: 'json',
+    	jsonp : false,
     	cache: false,
     	jsonpCallback: 'parseResponse',
     	success: function(data) {
-        console.log(data);
-   
-	    		$rootScope.busCount = data.count;
+        //console.log(data);
+
+
+		// PSM
+		data.markers = data;
+    
+	    		//$rootScope.busCount = data.count;
+	    		$rootScope.busCount = data.length;
 	      		if($rootScope.busCount === 0 && (!$scope.noBusMessage)){
 	  				$scope.showNoBuses();
 	  			}
 
 	  			//Add new markers if needed
 	  			var add;
-	  			for (var j = data.count - 1; j >= 0; j--) {
+	  			for (var j = data.length - 1; j >= 0; j--) {
 	  				add = true;
 	  				for (var z = $scope.markerIDs.length - 1; z >= 0; z--) {
 	  					if ( $scope.markerIDs[z] === data.markers[j].id ){
@@ -231,15 +246,20 @@ angular.module('BTS2App')
 	      				}
 	  				};
 	  				if ( add ){
+	  				// do a console.log on data.markers[j] to inspect what we're sending to 
+	  				// main.js createMarker. createMarker expects id, latitude, longitude, route
+	  				
 	  					$scope.map.markers.push($scope.createMarker(data.markers[j]));
 	  					$scope.markerIDs.push(data.markers[j].id);
 	  				}
 	  			};
 	  			//sanitize marker array for old markers
+	  			// this function should not need any changes since it doesn't
+	  			// touch $scope.map.markers
 	  			var remove;
 	  			for (var k = $scope.map.markers.length - 1; k >= 0; k--) {
 	  				remove = true;
-	  				for (var l = data.count - 1; l >= 0; l--) {
+	  				for (var l = data.length - 1; l >= 0; l--) {
 	  					if($scope.map.markers[k].id === data.markers[l].id){
 	  						remove = false;
 	  					}
@@ -255,14 +275,25 @@ angular.module('BTS2App')
 	  			};
 
       			//animate marker updates
+      			// PSM added data.markers[i].lat, lon, route from bts API that uses different
+      			// names than the old API
+      			//console.log($scope.map.markers);
 	  			for (var d = $scope.map.markers.length - 1; d >= 0; d--) {
-	  				for (var e = data.count - 1; e >= 0; e--) {
+	  				for (var e = data.length - 1; e >= 0; e--) {
 	  					if($scope.map.markers[d].id === data.markers[e].id){
 	  						if($rootScope.notMobile){
+	  							//console.log(data.markers[e].id + ' ' + d);
+
+	  							// PSM
+	  							$scope.map.markers[d].latitude = data.markers[e].lat;
+	  							$scope.map.markers[d].longitude = data.markers[e].lon;
+	  							$scope.map.markers[d].route = data.markers[e].type;
+
 	  						animateBus(d,data.markers[e]);
 	  						}else{
-	  							$scope.map.markers[d].latitude = data.markers[e].latitude;
-	  							$scope.map.markers[d].longitude = data.markers[e].longitude;
+	  							$scope.map.markers[d].latitude = data.markers[e].lat;
+	  							$scope.map.markers[d].longitude = data.markers[e].lon;
+	  							$scope.map.markers[d].route = data.markers[e].type;
 	  						}
 	  					}
 	  				};
